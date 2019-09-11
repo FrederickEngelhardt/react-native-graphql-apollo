@@ -6,12 +6,11 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
+  TextInput,
   Text,
   TouchableOpacity,
   StatusBar,
@@ -25,11 +24,7 @@ import {
 } from '@apollo/react-hooks';
 
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 const App = () => (
@@ -39,60 +34,48 @@ const App = () => (
 );
 
 const RootComponent = () => {
+  const [ inputValue, updateInput ] = useState('')
   const {data} = useQuery(GET_EMAIL);
-  console.log(data);
   const [updateEmail] = useMutation(UPDATE_EMAIL);
 
+  useEffect(() => {
+    console.log('Email was update!')
+  } ,[data])
+
   return (
-    <Fragment>
+    <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
+        <TextInput placeholder={'Type your email here'} autoFocus style={styles.input} value={inputValue} onChangeText={updateInput}/>
         <TouchableOpacity
-          onPress={() => updateEmail({variables: {email: 'fredo@gmail.com'}})}>
-          <Text>Click to update email</Text>
+          style={styles.button}
+          onPress={() => {
+            updateEmail({variables: {email: inputValue }})
+            updateInput('')
+          }}>
+          <Text style={styles.text}>Update Email</Text>
         </TouchableOpacity>
+        <Text style={styles.text}>Current Email: {data.email}</Text>
       </SafeAreaView>
-    </Fragment>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  button: {
+    width: 180,
+    backgroundColor: '#64d3ff',
+    borderRadius: 50,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  input: {
+    borderColor: 'black',
+    width: 200,
+    height: 80,
+    padding: 24,
   },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+  text: {
+    padding: 24,
+  }
 });
 
 export default App;
