@@ -16,9 +16,13 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import client, {GET_CART_ITEMS, GET_EMAIL, UPDATE_EMAIL} from './client'
-import {ApolloProvider, useApolloClient, useMutation, useQuery} from '@apollo/react-hooks';
-
+import client, {GET_CART_ITEMS, GET_EMAIL, UPDATE_EMAIL} from './client';
+import {
+  ApolloProvider,
+  useApolloClient,
+  useMutation,
+  useQuery,
+} from '@apollo/react-hooks';
 
 import {
   Header,
@@ -35,29 +39,18 @@ const App = () => (
 );
 
 const RootComponent = () => {
-  const { data } = useQuery(GET_EMAIL)
-  console.log(data)
-  const [updateEmail] = useMutation(
-    UPDATE_EMAIL,
-    {
-      update(cache, { data: { updateEmail } }) {
-        console.log(updateEmail)
-        debugger;
-        cache.writeQuery({
-          query: UPDATE_EMAIL,
-          data: { email: 'pooooooop' },
-        });
-      }
-    }
-  );
+  const {data} = useQuery(GET_EMAIL);
+  console.log(data);
+  const [updateEmail] = useMutation(UPDATE_EMAIL);
 
   return (
     <Fragment>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <TouchableOpacity onPress={() => {
-          updateEmail({ variables: { email: 'fredo@gmail.com'}})
-        }}><Text>Click to update email</Text></TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => updateEmail({variables: {email: 'fredo@gmail.com'}})}>
+          <Text>Click to update email</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </Fragment>
   );
