@@ -10,12 +10,7 @@ const typeDefs = gql`
 
     extend type Mutation {
 				updateEmail(email: String!): Void
-    }
-`;
-
-export const GET_CART_ITEMS = gql`
-    query GetCartItems {
-        cartItems @client
+				createEmail(email: String!, password: String!): Void
     }
 `;
 
@@ -33,11 +28,20 @@ export const UPDATE_EMAIL = gql`
     }
 `
 
+export const CREATE_ACCOUNT = gql`
+		mutation CreateAccount($email: String!, $password: String!) {
+				createAccount(email: $email, password: $password) @client {
+						email
+						password
+				}
+		}
+`
+
 const cache = new InMemoryCache();
 cache.writeData({
 	data: {
-		cartItems: ['dumbo', 'not dumbo'],
-		email: 'blah@gmail.com'
+		email: 'blah@gmail.com',
+		password: 'test',
 	},
 });
 
@@ -51,9 +55,11 @@ const client = new ApolloClient({
 	link: httpLink,
 	resolvers: {
 		Mutation: {
+			createAccount: (__root, { email, password }, { cache }) => {
+				cache.writeData({ data: { email, password } });
+				return { __typename: 'createAccount', email, password }
+			},
 			updateEmail: (__root, { email }, { cache }) => {
-				// const data = { email };
-				console.log(email)
 				cache.writeData({ data: { email } });
 				return { __typename: 'updateEmail', email }
 			},
