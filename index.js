@@ -50,38 +50,56 @@ export function generateNavigationRoot() {
 
   Navigation.setRoot({
     root: {
-      stack: {
-        children: [
-          {
-            component: {
-              name: WELCOME_SCREEN,
-							id: WELCOME_SCREEN,
-              options: {
-                topBar: {
-                  visible: false,
-                },
-                statusBar: {
-                  style: 'dark',
-                },
-              },
-            },
-          },
-          {
-            component: {
-              name: LOGIN_SCREEN,
-							id: LOGIN_SCREEN,
-              options: {
-                topBar: {
-                  visible: false,
-                },
-                statusBar: {
-                  style: 'dark',
-                },
-              },
-            },
-          },
-        ],
-      },
+    	sideMenu: {
+    		left: {
+					component: {
+						name: WELCOME_SCREEN,
+						id: WELCOME_SCREEN,
+						options: {
+							topBar: {
+								visible: false,
+							},
+							statusBar: {
+								style: 'dark',
+							},
+						},
+					},
+				},
+				center: {
+					stack: {
+						children: [
+							{
+								component: {
+									name: WELCOME_SCREEN,
+									id: WELCOME_SCREEN,
+									options: {
+										topBar: {
+											visible: false,
+										},
+										statusBar: {
+											style: 'dark',
+										},
+									},
+								},
+							},
+							{
+								component: {
+									name: LOGIN_SCREEN,
+									id: LOGIN_SCREEN,
+									options: {
+										topBar: {
+											visible: false,
+										},
+										statusBar: {
+											style: 'dark',
+										},
+									},
+								},
+							},
+						],
+					},
+				}
+			},
     },
   });
 }
