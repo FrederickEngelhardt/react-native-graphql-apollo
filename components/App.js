@@ -15,17 +15,14 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import client, {GET_CART_ITEMS, GET_EMAIL, UPDATE_EMAIL} from './client';
+import client, {GET_EMAIL, UPDATE_EMAIL} from '../client';
 import {
   ApolloProvider,
-  useApolloClient,
   useMutation,
   useQuery,
 } from '@apollo/react-hooks';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Navigation} from "react-native-navigation";
+import {WELCOME_SCREEN} from "../index";
 
 const App = () => (
   <ApolloProvider client={client}>
@@ -42,10 +39,13 @@ const RootComponent = () => {
     console.log('Email was update!')
   } ,[data])
 
+  const hideOverlay = () => Navigation.dismissOverlay(WELCOME_SCREEN);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Change Your Email</Text>
         <TextInput placeholder={'Type your email here'} autoFocus style={styles.input} value={inputValue} onChangeText={updateInput}/>
         <TouchableOpacity
           style={styles.button}
@@ -56,12 +56,27 @@ const RootComponent = () => {
           <Text style={styles.text}>Update Email</Text>
         </TouchableOpacity>
         <Text style={styles.text}>Current Email: {data.email}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={hideOverlay}>
+          <Text style={styles.text}>Go Back</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  title: {
+    color: '#ffffff',
+    fontSize: 40,
+    fontWeight: '600',
+    textAlign: 'center'
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#00b7ff'
+  },
   button: {
     width: 180,
     backgroundColor: '#64d3ff',
