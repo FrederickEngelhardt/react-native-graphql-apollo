@@ -22,29 +22,32 @@ import client, {CREATE_ACCOUNT} from '../client';
 import {
   ApolloProvider,
   useMutation,
-  useQuery,
 } from '@apollo/react-hooks';
 import {WELCOME_SCREEN} from "../index";
 import {create} from "react-native/jest/renderer";
 
-const Login = () => (
+const Login = (props) => (
   <ApolloProvider client={client}>
-    <RootComponent />
+    <RootComponent {...props} />
   </ApolloProvider>
 );
 
-const RootComponent = () => {
+const RootComponent = (props) => {
   const [ emailValue, updateEmail ] = useState('')
   const [ passwordValue, updatePassword ] = useState('')
   const [createAccount] = useMutation(CREATE_ACCOUNT);
 
-  const showOverlay = () => Navigation.showOverlay({
+  const showOverlay = () => Navigation.push(WELCOME_SCREEN, {
     component: {
       name: WELCOME_SCREEN,
-      id: WELCOME_SCREEN,
+      passProps: {
+        text: 'Pushed screen'
+      },
       options: {
-        overlay: {
-          interceptTouchOutside: true
+        topBar: {
+          title: {
+            text: 'Pushed screen title'
+          }
         }
       }
     }

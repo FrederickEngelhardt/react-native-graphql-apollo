@@ -11,12 +11,12 @@ export const LOGIN_SCREEN = 'demo.LoginScreen';
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.registerComponent(WELCOME_SCREEN, () => App);
   Navigation.registerComponent(LOGIN_SCREEN, () => Login);
-  pushTutorialScreen();
+	generateNavigationRoot();
 });
 
 // AppRegistry.registerComponent(appName, () => App);
 
-export function pushTutorialScreen() {
+export function generateNavigationRoot() {
   Navigation.setDefaultOptions({
     topBar: {
       background: {
@@ -55,6 +55,7 @@ export function pushTutorialScreen() {
           {
             component: {
               name: WELCOME_SCREEN,
+							id: WELCOME_SCREEN,
               options: {
                 topBar: {
                   visible: false,
@@ -68,6 +69,7 @@ export function pushTutorialScreen() {
           {
             component: {
               name: LOGIN_SCREEN,
+							id: LOGIN_SCREEN,
               options: {
                 topBar: {
                   visible: false,

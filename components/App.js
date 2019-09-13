@@ -15,22 +15,22 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import client, {GET_EMAIL, UPDATE_EMAIL} from '../client';
+import client, {CREATE_ACCOUNT, GET_EMAIL, UPDATE_EMAIL} from '../client';
 import {
   ApolloProvider,
   useMutation,
   useQuery,
 } from '@apollo/react-hooks';
 import {Navigation} from "react-native-navigation";
-import {WELCOME_SCREEN} from "../index";
+import {LOGIN_SCREEN, WELCOME_SCREEN} from "../index";
 
-const App = () => (
+const App = (props) => (
   <ApolloProvider client={client}>
-    <RootComponent />
+    <RootComponent {...props} />
   </ApolloProvider>
 );
 
-const RootComponent = () => {
+const RootComponent = (props) => {
   const [ inputValue, updateInput ] = useState('')
   const {data} = useQuery(GET_EMAIL);
   const [updateEmail] = useMutation(UPDATE_EMAIL);
@@ -39,7 +39,7 @@ const RootComponent = () => {
     console.log('Email was update!')
   } ,[data])
 
-  const hideOverlay = () => Navigation.dismissOverlay(WELCOME_SCREEN);
+  const hideOverlay = () => Navigation.pop(props.componentId)
 
   return (
     <>
